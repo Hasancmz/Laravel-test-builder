@@ -10,7 +10,7 @@
 <body>
     {{-- Header --}}  
     <x-header />
-    <div class="container mt-12">
+    <div class="container mt-12 mb-16">
         @yield('content')
     </div>
 

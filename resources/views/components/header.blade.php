@@ -7,10 +7,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{{ route('layouts.master') }}">Home</a>
+            <a class="nav-link active" aria-current="page" href="{{ route('public.home') }}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Quizler</a>
+            <a class="nav-link" href="{{ route('public.quizzes') }}">Quizler</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url('/dashboard') }}" tabindex="-1" aria-disabled="true">Dashboard</a>

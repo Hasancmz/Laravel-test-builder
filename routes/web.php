@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Rules\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.master');
-})->name('layouts.master');
+// Public route
+Route::get('/', [MainController::class, 'home'])->name('public.home');
+Route::get('/quizzes', [MainController::class, 'quizzes'])->name('public.quizzes');
+Route::get('/quiz/detail/{slug}', [MainController::class, 'quizDetail'])->name('quiz.detail');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-// Admin rotası
+// User route
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+    Route::resource('/quiz', QuizController::class);
+});
+
+// Admin route
 Route::group(['middleware' => ['auth', 'adminChecker'], 'prefix' => 'admin'], function () {
     Route::get('/deneme', [QuizController::class, 'index'])->name('index.deneme');
 });
