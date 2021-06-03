@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('layouts.master');
+})->name('layouts.master');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+// Admin rotası
+Route::group(['middleware' => ['auth', 'adminChecker'], 'prefix' => 'admin'], function () {
+    Route::get('/deneme', [QuizController::class, 'index'])->name('index.deneme');
+});
