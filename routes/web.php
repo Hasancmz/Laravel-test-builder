@@ -21,13 +21,14 @@ Route::get('/', [MainController::class, 'home'])->name('public.home');
 Route::get('/quizzes', [MainController::class, 'quizzes'])->name('public.quizzes');
 Route::get('/quiz/detail/{slug}', [MainController::class, 'quizDetail'])->name('quiz.detail');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
 
 // User route
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [MainController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/myquizzes', [MainController::class, 'myquizzes'])->name('user.myquizzes');
     Route::resource('/quiz', QuizController::class);
 });
 

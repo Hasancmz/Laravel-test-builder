@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Support\ViewErrorBag;
 
 class MainController extends Controller
@@ -21,7 +22,7 @@ class MainController extends Controller
 
     public function quizzes()
     {
-        $quizzes = Quiz::paginate(12);
+        $quizzes = Quiz::orderBy('created_at', 'DESC')->paginate(12);
         $categories = Category::withCount('getQuiz')->get();
         return view('public.quizzes', [
             'quizzes' => $quizzes,
@@ -34,6 +35,15 @@ class MainController extends Controller
         $quiz_detail = Quiz::whereSlug($slug)->first() ?? abort(404);
         return view('public.quizDetail', [
             'quiz_detail' => $quiz_detail
+        ]);
+    }
+
+    public function myquizzes()
+    {
+        $user = auth()->user()->id;
+        $my_quizzes = User::find($user)->getMyQuizzes()->orderBy('updated_at', 'DESC')->paginate(5);
+        return view('user.my-quizzes', [
+            'myquizzes' => $my_quizzes,
         ]);
     }
 }

@@ -13,7 +13,7 @@
             <a class="nav-link" href="{{ route('public.quizzes') }}">Quizler</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/dashboard') }}" tabindex="-1" aria-disabled="true">Dashboard</a>
+            <a class="nav-link" href="{{ route('user.dashboard') }}" tabindex="-1" aria-disabled="true">Dashboard</a>
           </li>
         </ul>
         @if (Route::has('login'))

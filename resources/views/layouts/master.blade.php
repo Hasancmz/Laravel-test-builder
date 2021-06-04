@@ -10,7 +10,25 @@
 <body>
     {{-- Header --}}  
     <x-header />
+
     <div class="container mt-12 mb-16">
+        {{-- Hata mesajı --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $error) 
+                    <li>{{ $error }}</li>
+                @endforeach
+            </div>                        
+        @endif
+
+        {{-- Başarıyla işlem yapıldı mesajı --}}
+        @if (session('success'))
+            <div id="message" class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- içerik --}}
         @yield('content')
     </div>
 

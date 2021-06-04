@@ -56,7 +56,7 @@
                   
             </div>  
             <div class="col-md-8">
-                <li class="list-group-item list-group-item-secondary mb-6">{{ $quiz_detail->name }}</li>
+                <li class="list-group-item list-group-item-secondary mb-6">{{ $quiz_detail->title }}</li>
                 <p class="card-text">
                     {{ $quiz_detail->description }}
                 </p>  

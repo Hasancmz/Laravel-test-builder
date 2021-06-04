@@ -22,12 +22,13 @@ class QuizFactory extends Factory
      */
     public function definition()
     {
-        $quizName = $this->faker->unique()->words($nb = 4, $asText = true);
-        $slug = Str::slug($quizName);
+        $quizTitle = $this->faker->unique()->words($nb = 4, $asText = true);
+        $slug = Str::slug($quizTitle);
         return [
-            'name' => $quizName,
+            'title' => $quizTitle,
             'description' => $this->faker->text(400),
             'category_id' => $this->faker->numberBetween(1, 5),
+            'user_id' => $this->faker->numberBetween(1, 10),
             'slug' => $slug
         ];
     }
