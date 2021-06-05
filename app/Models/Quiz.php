@@ -15,8 +15,8 @@ class Quiz extends Model
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
 
-    // public function getUser()
-    // {
-    //     return $this->hasOne('App\Models\User');
-    // }
+    public function getUser()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

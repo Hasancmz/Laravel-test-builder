@@ -7,15 +7,22 @@
                     <h5 >{{ $myquiz->getCategory->name }}</h5>
                     <small>{{ $myquiz->updated_at->diffForHumans() }}</small>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{ $myquiz->title }}</h5>
-                    <p class="card-text">{{ $myquiz->description }}</p>
-                    <a href="#" class="btn btn-primary">Soru Ekle</a>
-                    <a href="{{ route('quiz.edit', $myquiz->slug) }}" class="btn btn-warning">Düzenle</a>
-                    <a href="#" class="btn btn-danger">Sil</a>
-                </div>
+                <a href="{{ route('quiz.show',$myquiz->slug) }}" class="text-decoration-none text-dark">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $myquiz->title }}</h5>
+                        <p class="card-text">{{ $myquiz->description }}</p>
+                        
+                        <form class="mt-3" action="{{ route('quiz.destroy', $myquiz->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <a href="#" class="btn btn-primary">Soru Ekle</a>
+                            <a href="{{ route('quiz.edit', $myquiz->slug) }}" class="btn btn-warning">Düzenle</a>
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
+                    </div>
+                </a>
             </div>
-        @endforeach
+        @endforeach  
     @else
         <div class="alert alert-secondary">Mevcut paylaşımınız bulunmamaktadır. Quiz oluşturmayı deneyiniz.</div>
     @endif

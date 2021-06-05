@@ -60,7 +60,11 @@ class QuizController extends Controller
      */
     public function show($id)
     {
-        //
+        $quiz = Quiz::whereSlug($id)->first();
+
+        return view('user.quiz.show', [
+            'quiz' => $quiz
+        ]);
     }
 
     /**
@@ -71,12 +75,16 @@ class QuizController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::all();
         $quiz = Quiz::whereSlug($id)->first() ?? abort(404);
-        return view('user.quiz.edit', [
-            'categories' => $categories,
-            'quiz' => $quiz
-        ]);
+        $categories = Category::all();
+        if (auth()->user()->id === $quiz->user_id) {
+            return view('user.quiz.edit', [
+                'categories' => $categories,
+                'quiz' => $quiz
+            ]);
+        } else {
+            return abort(404);
+        }
     }
 
     /**
@@ -88,6 +96,8 @@ class QuizController extends Controller
      */
     public function update(QuizUpdateRequest $request, $id)
     {
+        $slug = Str::slug($request->title);
+        $request['slug'] = $slug;
         Quiz::find($id)->update($request->except(['_method', '_token']));
         return redirect()->route('user.myquizzes')->withSuccess('Quiz Başarıyla Güncellendi');
     }
@@ -100,6 +110,7 @@ class QuizController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $quiz = Quiz::find($id)->delete() ?? abort(404);
+        return redirect()->route('user.myquizzes')->withSuccess('Quiz Başarıyla Silindi');
     }
 }
