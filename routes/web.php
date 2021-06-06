@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Rules\Role;
@@ -30,6 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/myquizzes', [MainController::class, 'myquizzes'])->name('user.myquizzes');
     Route::resource('/quiz', QuizController::class);
+    Route::resource('/quiz/{slug}/questions', QuestionController::class);
 });
 
 // Admin route

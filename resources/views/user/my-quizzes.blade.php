@@ -15,7 +15,7 @@
                         <form class="mt-3" action="{{ route('quiz.destroy', $myquiz->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <a href="#" class="btn btn-primary">Soru Ekle</a>
+                            <a href="{{ route('questions.index',$myquiz->slug) }}" class="btn btn-primary">Sorularım</a>
                             <a href="{{ route('quiz.edit', $myquiz->slug) }}" class="btn btn-warning">Düzenle</a>
                             <button type="submit" class="btn btn-danger">Sil</button>
                         </form>

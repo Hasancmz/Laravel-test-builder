@@ -16,6 +16,7 @@ class Questions extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('quiz_id');
+            $table->longText('image')->nullable();
             $table->longText('question');
             $table->text('answer1');
             $table->text('answer2');
