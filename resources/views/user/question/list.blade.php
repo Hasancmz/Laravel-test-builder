@@ -1,9 +1,8 @@
 @extends('layouts.master')
 @section('content')
-    
         <div class="d-flex justify-content-between">
             <a class="btn btn-sm btn-primary" href="{{ route('user.myquizzes') }}"><i class="fa fa-arrow-left mr-2"></i>Quizlere Dön</a>
-            <a class="btn btn-sm btn-success" href="{{ route('questions.create',$quiz->slug ) }}"><i class="fa fa-plus mr-2"></i>Soru ekle</a>
+            <a class="btn btn-sm btn-warning" href="{{ route('questions.create',$quiz->slug ) }}"><i class="fa fa-plus mr-2"></i>Soru ekle</a>
         </div>
         @if(count($questions->getMyQuestions) > 0)
           <table class="table table-bordered mt-3">
@@ -25,17 +24,23 @@
                   <td scope="row">{{ $question->question }}</td>
                   <td>
                     @if ($question->image)
-                      <a href="{{ asset($question->image) }}" class="btn btn-sm btn-secondary" target="_blank">Görüntüle</a>
+                      <a href="{{ asset($question->image) }}"  target="_blank">
+                        <img src="{{ asset($question->image) }}"  alt="{{ $question->question }}">
+                      </a>
                     @endif
                   </td>
                   <td>{{ $question->answer1 }}</td>
                   <td>{{ $question->answer2 }}</td>
                   <td>{{ $question->answer3 }}</td>
                   <td>{{ $question->answer4 }}</td>
-                  <td class="text-success">{{ $question->correct_answer }}</td>
+                  <td class="text-success">{{ substr($question->correct_answer,-1)}}. Cevap</td>
                   <td>   
-                      <a href="" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-                      <button type="submit" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></button>
+                      <form action="{{ route('questions.destroy',[$quiz->slug,$question->id]) }}" method="post">
+                          @csrf
+                          @method('delete')
+                          <a href="{{ route('questions.edit', [$quiz->slug,$question->id]) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+                          <button type="submit" class="btn btn-sm btn-danger" title="Sil"><i class="fa fa-times"></i></button>
+                      </form>
                   </td>
                 </tr>
               @endforeach    

@@ -18,7 +18,7 @@
                 <select name="category_id" class="form-control">
                     <option value="">Kategori seçiniz</option>
                     @foreach ($categories as $category)
-                        <option @if(old('category_id') === $category->id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option @if($category->id === $quiz->category_id) selected @endif value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>

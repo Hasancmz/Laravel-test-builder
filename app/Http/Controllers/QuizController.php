@@ -18,7 +18,7 @@ class QuizController extends Controller
      */
     public function index()
     {
-        return "SELAM CINIM";
+        //
     }
 
     /**
@@ -58,13 +58,19 @@ class QuizController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $quiz = Quiz::whereSlug($id)->first();
+        $quiz = Quiz::whereSlug($slug)->first() ?? abort(404);
+        $questions = Quiz::whereSlug($slug)->with('getMyQuestions')->first();
 
-        return view('user.quiz.show', [
-            'quiz' => $quiz
-        ]);
+        if (auth()->user()->id === $quiz->user_id) {
+            return view('user.quiz.show', [
+                'quiz' => $quiz,
+                'questions' => $questions
+            ]);
+        } else {
+            return abort(404);
+        }
     }
 
     /**

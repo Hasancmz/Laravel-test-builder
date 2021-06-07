@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
@@ -36,5 +37,5 @@ Route::group(['middleware' => 'auth'], function () {
 
 // Admin route
 Route::group(['middleware' => ['auth', 'adminChecker'], 'prefix' => 'admin'], function () {
-    Route::get('/deneme', [QuizController::class, 'index'])->name('index.deneme');
+    Route::resource('/quizzes', AdminController::class);
 });
