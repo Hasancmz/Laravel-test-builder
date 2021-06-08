@@ -14,8 +14,13 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $quizzes = Quiz::with('getCategory', 'getUser')->withCount('getMyQuestions')->paginate(10);
-        // return $quizzes;
+        $quizzes = Quiz::with('getCategory', 'getUser')->withCount('getMyQuestions')->orderBy('created_at', 'ASC')->paginate(10);
+        $actives = Quiz::where('status', 'active')->with('getCategory', 'getUser')->withCount('getMyQuestions')->orderBy('created_at', 'ASC')->paginate(10);
+
+        // if (request()->get('status')) {
+        //     $quizzes = $quizzes->where('status', request()->get('status'));
+        // }
+
         return view('admin.quizzes.list', [
             'quizzes' => $quizzes,
         ]);
@@ -48,9 +53,15 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $quiz = Quiz::whereSlug($slug)->first() ?? abort(404);
+        $questions = Quiz::whereSlug($slug)->with('getMyQuestions')->first();
+
+        return view('admin.quizzes.show', [
+            'quiz' => $quiz,
+            'questions' => $questions
+        ]);
     }
 
     /**
@@ -59,9 +70,12 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $quiz = Quiz::whereSlug($slug)->first() ?? abort(404);
+        return view('admin.quizzes.edit', [
+            'quiz' => $quiz
+        ]);
     }
 
     /**
@@ -71,9 +85,10 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        Quiz::whereSlug($slug)->update($request->except(['_method', '_token']));
+        return redirect()->route('quizzes.index')->withSuccess('Quizin Durumu Güncellendi');
     }
 
     /**

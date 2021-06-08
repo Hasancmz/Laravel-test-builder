@@ -22,7 +22,7 @@ class MainController extends Controller
 
     public function quizzes()
     {
-        $quizzes = Quiz::orderBy('created_at', 'DESC')->paginate(12);
+        $quizzes = Quiz::where('status', 'active')->orderBy('updated_at', 'DESC')->paginate(12);
         $categories = Category::withCount('getQuiz')->get();
         return view('public.quizzes', [
             'quizzes' => $quizzes,
@@ -45,5 +45,11 @@ class MainController extends Controller
         return view('user.my-quizzes', [
             'myquizzes' => $my_quizzes,
         ]);
+    }
+
+    public function quizActive(Request $request, $slug)
+    {
+        Quiz::whereSlug($slug)->update($request->except(['_method', '_token']));
+        return redirect()->route('user.myquizzes')->withSuccess('Quiziniz incelendikten sonra uygun görülürse aktifleştirilecektir.');
     }
 }

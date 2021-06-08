@@ -4,15 +4,15 @@
     <div class="card-body">
         <form action="{{ route('quiz.store') }}" method="POST">
             @csrf
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="">Quiz Başlığı</label>
                 <input type="text" name="title" class="form-control" value="{{ old("title") }}">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="">Quiz Açıklama</label>
                 <textarea name="description" class="form-control" rows="4">{{ old("description") }}</textarea>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label for="">Kategori</label>
                 <select name="category_id" class="form-control">
                     <option value="">Durum Seçiniz</option>

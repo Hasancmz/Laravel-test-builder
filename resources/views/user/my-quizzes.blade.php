@@ -5,7 +5,15 @@
             <div class="card mb-6">
                 <div class="card-header d-flex justify-content-between">
                     <h5 >{{ $myquiz->getCategory->name }}</h5>
-                    <div class="btn btn-sm disabled btn-secondary">Quiz Pasif</div>
+                    @if ($myquiz->status === 'passive')
+                        <div class="btn btn-sm disabled btn-danger">Quiz Pasif</div>
+                    @endif
+                    @if ($myquiz->status === 'draft')
+                        <div class="btn btn-sm disabled btn-warning">Quiz Onay Bekliyor</div>
+                    @endif
+                    @if ($myquiz->status === 'active')
+                        <div class="btn btn-sm disabled btn-success">Quiz Aktif</div>
+                    @endif
                 </div>
                 <a href="{{ route('quiz.show',$myquiz->slug) }}" class="text-decoration-none text-dark">
                     <div class="card-body">

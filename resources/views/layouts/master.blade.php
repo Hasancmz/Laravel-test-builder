@@ -24,7 +24,7 @@
         {{-- Başarıyla işlem yapıldı mesajı --}}
         @if (session('success'))
             <div id="message" class="alert alert-success">
-                {{ session('success') }}
+                <i class="fa fa-check mr-2" aria-hidden="true"></i>{{ session('success') }}
             </div>
         @endif
 

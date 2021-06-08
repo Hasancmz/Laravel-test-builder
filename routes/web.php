@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\StatuController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Jetstream\Rules\Role;
 
@@ -31,11 +32,15 @@ Route::get('/quiz/detail/{slug}', [MainController::class, 'quizDetail'])->name('
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('user.dashboard');
     Route::get('/myquizzes', [MainController::class, 'myquizzes'])->name('user.myquizzes');
+    Route::get('/quiz/{slug}/active', [MainController::class, 'quizActive'])->name('quiz.active');
     Route::resource('/quiz', QuizController::class);
     Route::resource('/quiz/{slug}/questions', QuestionController::class);
 });
 
 // Admin route
 Route::group(['middleware' => ['auth', 'adminChecker'], 'prefix' => 'admin'], function () {
+    Route::get('/quizzes/active', [StatuController::class, 'active'])->name('quizzes.active');
+    Route::get('/quizzes/draft', [StatuController::class, 'draft'])->name('quizzes.draft');
+    Route::get('/quizzes/passive', [StatuController::class, 'passive'])->name('quizzes.passive');
     Route::resource('/quizzes', AdminController::class);
 });
