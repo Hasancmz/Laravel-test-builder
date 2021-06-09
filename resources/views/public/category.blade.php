@@ -2,6 +2,7 @@
 @section('content')
 <div class="row">
     <div class="list-group col-md-9">
+        @if (count($quizzes) > 0)
         @foreach ($quizzes as $quiz)
             <a href="{{ route('quiz.detail',$quiz->slug) }}" class="list-group-item list-group-item-action" aria-current="true">
                 <div class="d-flex w-100 justify-content-between">
@@ -15,12 +16,15 @@
                 </div>
             </a>
         @endforeach
+        @else
+            <div class="alert alert-secondary">Henüz bu kategoriye içerik eklenmemiş</div>
+        @endif
     </div>
     <div class="col-md-3">
         <ul class="list-group">
             <li>
                 <a href="{{ route('public.quizzes') }}" class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">Hepsi
-                    <span class="badge bg-secondary rounded-pill">{{ count($quizzes) }}</span>
+                    <span class="badge bg-secondary rounded-pill">{{ count($quizzes_count) }}</span>
                 </a>
             </li>
             @foreach ($categories as $category)

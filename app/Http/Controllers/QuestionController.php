@@ -73,7 +73,7 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        return "SELAMmm";
     }
 
     /**

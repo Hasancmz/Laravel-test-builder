@@ -56,12 +56,12 @@
                   
             </div>  
             <div class="col-md-8">
-                <li class="list-group-item list-group-item-secondary mb-6">{{ $quiz_detail->title }}</li>
+                <li class="list-group-item list-group-item-secondary mb-6">{{ $quiz->title }}</li>
                 <p class="card-text">
-                    {{ $quiz_detail->description }}
+                    {{ $quiz->description }}
                 </p>  
                 <a href="" class="btn btn-warning btn-block btn-sm">Quizi Görüntüle</a>    
-                <a href="" class="btn btn-primary btn-block btn-sm">Quize Katıl</a>
+                <a href="{{ route('user.questions',$quiz->slug) }}" class="btn btn-primary btn-block btn-sm">Quize Katıl</a>
             </div>     
         </div>
     </div>
