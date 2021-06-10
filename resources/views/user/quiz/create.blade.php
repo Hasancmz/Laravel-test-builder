@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+<a class="btn btn-sm btn-primary mb-3" href="{{ route('user.dashboard') }}"><i class="fa fa-arrow-left mr-2"></i>Dashboard</a>
 <div class="card">
     <div class="card-body">
         <form action="{{ route('quiz.store') }}" method="POST">

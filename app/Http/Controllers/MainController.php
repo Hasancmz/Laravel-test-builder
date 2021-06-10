@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Quiz;
+use App\Models\Result;
 use App\Models\User;
 use Illuminate\Support\ViewErrorBag;
 
@@ -25,7 +27,6 @@ class MainController extends Controller
         $quizzes = Quiz::where('status', 'active')->orderBy('updated_at', 'DESC')->paginate(12);
         $categories = Category::withCount('getQuiz')->get();
         $category_count = Category::with('getQuiz')->get();
-        // kategorilerin sayılarını yapamadım yapılcak
 
         return view('public.quizzes', [
             'quizzes' => $quizzes,
@@ -36,9 +37,13 @@ class MainController extends Controller
 
     public function quizDetail($slug)
     {
-        $quiz = Quiz::whereSlug($slug)->first() ?? abort(404);
+        $quiz = Quiz::whereSlug($slug)->with('getMyQuestions', 'results', 'my_result', 'topTen.user')->first() ?? abort(404);
+        $results = User::whereId(auth()->user()->id)->with('results')->first();
+        $result = $results->results->where('quiz_id', $quiz->id)->first();
+
         return view('public.quizDetail', [
-            'quiz' => $quiz
+            'quiz' => $quiz,
+            'result' => $result
         ]);
     }
 
@@ -74,11 +79,52 @@ class MainController extends Controller
     {
         $quiz = Quiz::whereSlug($slug)->first() ?? abort(404);
         $questions = Quiz::whereSlug($slug)->with('getMyQuestions')->first();
-
+        // return $questions;
+        if ($quiz->my_result) {
+            return view('user.exam.my_result', [
+                'quiz' => $quiz,
+                'questions' => $questions
+            ]);
+        };
         // return $questions;
         return view('user.exam.questions', [
             'quiz' => $quiz,
             'questions' => $questions
         ]);
+    }
+
+    public function result(Request $request, $slug)
+    {
+        $quiz = Quiz::whereSlug($slug)->with('getMyQuestions')->first() ?? abort(404);
+        $correct = 0;
+
+        if ($quiz->my_result) {
+            return redirect()->route('quiz.detail', $quiz->slug)->withSuccess('Başarıyla Quizi Bitirdin. Puanın : ' . $quiz->my_result->point);
+        }
+
+        foreach ($quiz->getMyQuestions as $question) {
+            Answer::create([
+                'user_id' => auth()->user()->id,
+                'question_id' => $question->id,
+                'answer' => $request->post($question->id)
+            ]);
+
+            if ($question->correct_answer === $request->post($question->id)) {
+                $correct += 1;
+            }
+        }
+
+        $point = round((100 / count($quiz->getMyQuestions)) * $correct);
+        $wrong = count($quiz->getMyQuestions) - $correct;
+
+        Result::create([
+            'user_id' => auth()->user()->id,
+            'quiz_id' => $quiz->id,
+            'point' => $point,
+            'correct' => $correct,
+            'wrong' => $wrong
+        ]);
+
+        return redirect()->route('quiz.detail', $quiz->slug)->withSuccess('Başarıyla Quizi Bitirdin. Puanın : ' . $point);
     }
 }

@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+<a class="btn btn-sm btn-primary mb-3" href="{{ route('user.myquizzes') }}"><i class="fa fa-arrow-left mr-2"></i>Quizlere Dön</a>
 <div class="card">
     <div class="card-body">
         <form action="{{ route('quiz.update', $quiz->id) }}" method="POST">

@@ -18,6 +18,16 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    public function getMyQuizzes()
+    {
+        return $this->hasMany('App\Models\Quiz');
+    }
+
+    public function results()
+    {
+        return $this->hasMany('App\Models\Result');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -58,9 +68,4 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
-
-    public function getMyQuizzes()
-    {
-        return $this->hasMany('App\Models\Quiz');
-    }
 }

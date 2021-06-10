@@ -12,6 +12,6 @@ class Category extends Model
 
     public function getQuiz()
     {
-        return $this->hasMany('App\Models\Quiz');
+        return $this->hasMany('App\Models\Quiz')->where('status', 'active');
     }
 }
