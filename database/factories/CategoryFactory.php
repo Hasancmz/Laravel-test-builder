@@ -22,8 +22,8 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $categories = ['Bilim', 'Genel kültür', 'Spor', 'Teknoloji', 'Matematik'];
-        $category = $categories[$this->faker->unique()->numberBetween(0, 4)];
+        $categories = ['Bilim', 'Genel kültür', 'Spor', 'Teknoloji', 'Matematik', 'Diğer'];
+        $category = $categories[$this->faker->unique()->numberBetween(0, 5)];
         $slug = Str::slug($category);
         return [
             'name' => $category,

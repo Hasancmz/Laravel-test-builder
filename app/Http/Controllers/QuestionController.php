@@ -49,23 +49,23 @@ class QuestionController extends Controller
      */
     public function store(QuestionCreateRequest $request, $slug)
     {
-        if ($request->hasfile('image')) {
-            $fileName = Str::slug($request->question) . '-' . time() . '.' . $request->image->extension();
-            $fileNameWithUpload = 'uploads/' . $fileName;
-            $request->image->move(public_path('uploads'), $fileName);
-            $request->merge([
-                'image' => $fileNameWithUpload
-            ]);
-        }
-
         // if ($request->hasfile('image')) {
-        //     $fileName = Str::slug($request->question) . "-" . time() . '.' . $request->image->extension();
-        //     $folderPath = storage_path("app/public/products/");
-        //     $request->image->move($folderPath, $fileName);
+        //     $fileName = Str::slug($request->question) . '-' . time() . '.' . $request->image->extension();
+        //     $fileNameWithUpload = 'uploads/' . $fileName;
+        //     $request->image->move(public_path('uploads'), $fileName);
         //     $request->merge([
-        //         'image' => "storage/products/" . $fileName
+        //         'image' => $fileNameWithUpload
         //     ]);
         // }
+
+        if ($request->hasfile('image')) {
+            $fileName = Str::slug($request->question) . "-" . time() . '.' . $request->image->extension();
+            $folderPath = storage_path("app/public/images/products/");
+            $request->image->move($folderPath, $fileName);
+            $request->merge([
+                'image' => "storage/images/products/" . $fileName
+            ]);
+        }
 
         $quiz_id = Quiz::whereSlug($slug)->first();
         $request['quiz_id'] = $quiz_id->id;
@@ -115,14 +115,24 @@ class QuestionController extends Controller
      */
     public function update(QuestionUpdateRequest $request, $slug, $id)
     {
+        // if ($request->hasfile('image')) {
+        //     $fileName = Str::slug($request->question) . '-' . time() . '.' . $request->image->extension();
+        //     $fileNameWithUpload = 'uploads/' . $fileName;
+        //     $request->image->move(public_path('uploads'), $fileName);
+        //     $request->merge([
+        //         'image' => $fileNameWithUpload
+        //     ]);
+        // }
+
         if ($request->hasfile('image')) {
-            $fileName = Str::slug($request->question) . '-' . time() . '.' . $request->image->extension();
-            $fileNameWithUpload = 'uploads/' . $fileName;
-            $request->image->move(public_path('uploads'), $fileName);
+            $fileName = Str::slug($request->question) . "-" . time() . '.' . $request->image->extension();
+            $folderPath = storage_path("app/public/images/products/");
+            $request->image->move($folderPath, $fileName);
             $request->merge([
-                'image' => $fileNameWithUpload
+                'image' => "storage/images/products/" . $fileName
             ]);
         }
+
         Question::whereId($id)->first()->update($request->post());
         return redirect()->route('questions.index', $slug)->withSuccess('Soru Başarıyla Güncellendi.');
     }

@@ -29,7 +29,7 @@
                   <td>
                     @if ($question->image)
                       <a href="{{ asset($question->image) }}"  target="_blank">
-                        <img src="{{ asset($question->image) }}"  alt="{{ $question->question }}">
+                        <img width="100px" src="{{ asset($question->image) }}"  alt="{{ $question->question }}">
                       </a>
                     @endif
                   </td>
