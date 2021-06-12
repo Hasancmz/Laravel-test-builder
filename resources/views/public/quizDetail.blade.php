@@ -66,7 +66,9 @@
                     @if ($quiz->my_result)
                         <a href="{{ route('user.questions',$quiz->slug) }}" class="list-group btn btn-warning btn-block btn-sm">Quizi Görüntüle</a>   
                     @else 
-                        <a href="{{ route('user.questions',$quiz->slug) }}" class="list-group btn btn-primary btn-block btn-sm">Quize Katıl</a>
+                        @if ($quiz->user_id !== auth()->user()->id)
+                            <a href="{{ route('user.questions',$quiz->slug) }}" class="list-group btn btn-primary btn-block btn-sm">Quize Katıl</a>
+                        @endif
                     @endif
                 </div>     
             @else
@@ -78,7 +80,9 @@
                     @if ($quiz->my_result)
                     <a href="{{ route('user.questions',$quiz->slug) }}" class="list-group btn btn-warning btn-block btn-sm">Quizi Görüntüle</a>   
                     @else 
-                        <a href="{{ route('user.questions',$quiz->slug) }}" class="list-group btn btn-primary btn-block btn-sm">Quize Katıl</a>
+                        @if ($quiz->user_id !== auth()->user()->id)
+                            <a href="{{ route('user.questions',$quiz->slug) }}" class="list-group btn btn-primary btn-block btn-sm">Quize Katıl</a>
+                        @endif
                     @endif
                 </div>     
             @endif  

@@ -22,6 +22,7 @@
         @csrf
         @foreach ($questions->getMyQuestions as $question)    
             <div class="mt-2 mb-2">
+                <img class="mb-3" src="{{ asset($question->image) }}" alt="">
                 <h6>{{ $loop->iteration }}#  {{ $question->question }}</h6>
                 <div class="form-check mt-2">
                     <input type="radio" id="" name="{{ $question->id }}" class="form-check-input" value="answer1" required>

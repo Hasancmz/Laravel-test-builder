@@ -58,9 +58,18 @@ class QuestionController extends Controller
             ]);
         }
 
+        // if ($request->hasfile('image')) {
+        //     $fileName = Str::slug($request->question) . "-" . time() . '.' . $request->image->extension();
+        //     $folderPath = storage_path("app/public/products/");
+        //     $request->image->move($folderPath, $fileName);
+        //     $request->merge([
+        //         'image' => "storage/products/" . $fileName
+        //     ]);
+        // }
+
         $quiz_id = Quiz::whereSlug($slug)->first();
         $request['quiz_id'] = $quiz_id->id;
-        // return $request->all();
+
         Question::create($request->post());
         return redirect()->route('questions.index', $slug)->withSuccess('Sorunuz başarıyla oluşturuldu');
     }

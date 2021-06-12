@@ -46,7 +46,7 @@ class MainController extends Controller
         $quiz = Quiz::whereSlug($slug)->with('getMyQuestions', 'results', 'my_result', 'topTen.user')->first() ?? abort(404);
         $results = User::whereId(auth()->user()->id)->with('results')->first();
         $result = $results->results->where('quiz_id', $quiz->id)->first();
-
+        // dd($quiz);
         return view('public.quizDetail', [
             'quiz' => $quiz,
             'result' => $result
@@ -86,6 +86,11 @@ class MainController extends Controller
         $quiz = Quiz::whereSlug($slug)->first() ?? abort(404);
         $questions = Quiz::whereSlug($slug)->with('getMyQuestions')->first();
         // return $questions;
+
+        if ($quiz->user_id === auth()->user()->id) {
+            return redirect()->route('quiz.detail', $quiz->slug);
+        };
+
         if ($quiz->my_result) {
             return view('user.exam.my_result', [
                 'quiz' => $quiz,
