@@ -14,7 +14,12 @@ class MainController extends Controller
 {
     public function dashboard()
     {
-        return view('user.dashboard');
+        $id = auth()->user()->id;
+        $results = User::whereId($id)->with('results.quiz')->first();
+
+        return view('user.dashboard', [
+            'results' => $results
+        ]);
     }
 
     public function home()
@@ -37,6 +42,7 @@ class MainController extends Controller
 
     public function quizDetail($slug)
     {
+
         $quiz = Quiz::whereSlug($slug)->with('getMyQuestions', 'results', 'my_result', 'topTen.user')->first() ?? abort(404);
         $results = User::whereId(auth()->user()->id)->with('results')->first();
         $result = $results->results->where('quiz_id', $quiz->id)->first();

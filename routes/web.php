@@ -22,7 +22,7 @@ use Laravel\Jetstream\Rules\Role;
 // Public route
 Route::get('/', [MainController::class, 'home'])->name('public.home');
 Route::get('/quizzes', [MainController::class, 'quizzes'])->name('public.quizzes');
-Route::get('/quiz/detail/{slug}', [MainController::class, 'quizDetail'])->name('quiz.detail');
+// Route::get('/quiz/detail/{slug}', [MainController::class, 'quizDetail'])->name('quiz.detail');
 Route::get('/quizzes/{slug}', [MainController::class, 'category'])->name('quizzes.category');
 
 // Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/myquizzes', [MainController::class, 'myquizzes'])->name('user.myquizzes');
     Route::get('/{slug}/questions', [MainController::class, 'questions'])->name('user.questions');
     Route::post('/{slug}/result', [MainController::class, 'result'])->name('user.result');
+    Route::get('/quiz/detail/{slug}', [MainController::class, 'quizDetail'])->name('quiz.detail');
     Route::get('/quiz/{slug}/active', [MainController::class, 'quizActive'])->name('quiz.active');
     Route::resource('/quiz', QuizController::class);
     Route::resource('/quiz/{slug}/questions', QuestionController::class);
